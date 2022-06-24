@@ -51,3 +51,65 @@ func TestIsEnd(t *testing.T) {
 		}
 	})
 }
+
+func TestAdvanceBy(t *testing.T) {
+	t.Log("test advanceBy")
+
+	context := ParseContext{}
+	t.Run("test 1", func(t *testing.T) {
+		input := "test a b c d"
+		expected := "st a b c "
+		context.Source = input
+		parse.advanceBy(&context, 2)
+		if context.Source != expected {
+			t.Errorf("failed: input %s, expected %s, actual %s", input, expected, context.Source)
+		}
+	})
+
+	t.Run("test 2", func(t *testing.T) {
+		input := "Hello World!"
+		expected := "lo World"
+		context.Source = input
+		parse.advanceBy(&context, 3)
+		if context.Source != expected {
+			t.Errorf("failed: input %s, expected %s, actual %s", input, expected, context.Source)
+		}
+	})
+
+}
+
+func TestParseTextData(t *testing.T) {
+	t.Log("test advanceBy")
+
+	context := ParseContext{}
+	t.Run("test 1", func(t *testing.T) {
+		input := "test a b c d"
+		expected := "te"
+		sourceExpected := "st a b c "
+		context.Source = input
+		result := parse.ParseTextData(&context, 2)
+		if result != expected {
+			t.Errorf("failed: input %s, expected %s, actual %s", input, expected, result)
+		}
+
+		if context.Source != sourceExpected {
+			t.Errorf("failed: input %s, expected %s, actual %s", input, sourceExpected, context.Source)
+		}
+	})
+
+	t.Run("test 2", func(t *testing.T) {
+		input := "Hello World!"
+		expected := "Hel"
+		sourceExpected := "lo World"
+		context.Source = input
+		result := parse.ParseTextData(&context, 3)
+		if result != expected {
+			t.Errorf("failed: input %s, expected %s, actual %s", input, expected, result)
+		}
+
+		if context.Source != sourceExpected {
+			t.Errorf("failed: input %s, expected %s, actual %s", input, sourceExpected, context.Source)
+		}
+	})
+
+}

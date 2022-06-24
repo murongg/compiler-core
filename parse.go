@@ -105,7 +105,7 @@ func (parse *Parse) ParseInterpolation(context *ParseContext) Node {
 	rawContentLength := closeIndex - strutil.Len(openDelimiter)
 	rawContent := StringSlice(context.Source, 0, rawContentLength)
 
-	preTrimContent := parse.parseTextData(context, strutil.Len(rawContent))
+	preTrimContent := parse.ParseTextData(context, strutil.Len(rawContent))
 	content := strutil.Trim(preTrimContent)
 	parse.advanceBy(context, strutil.Len(closeDelimiter))
 
@@ -160,7 +160,7 @@ func (parse *Parse) ParseText(context *ParseContext) Node {
 			endIndex = index
 		}
 	}
-	content := parse.parseTextData(context, endIndex)
+	content := parse.ParseTextData(context, endIndex)
 	return Node{
 		Type: NodeTypesText,
 		Content: NodeContent{
@@ -173,7 +173,7 @@ func (parse *Parse) advanceBy(context *ParseContext, numberOfCharacters int) {
 	context.Source = StringSlice(context.Source, numberOfCharacters, strutil.Len(context.Source)-1)
 }
 
-func (parse *Parse) parseTextData(context *ParseContext, length int) string {
+func (parse *Parse) ParseTextData(context *ParseContext, length int) string {
 	rawText := StringSlice(context.Source, 0, length)
 	parse.advanceBy(context, length)
 	return rawText
